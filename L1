@@ -1,0 +1,22 @@
+#ACCESING THE TKINTER MODULE
+from tkinter import *
+#CREATING A TKINTER WINNDOW
+l1 = Tk()
+l1.title("A Button")
+#DEFINING DIMENSIONS
+l1.geometry("1200x1000")
+l1.config(background = "lightyellow")
+#CREATE A BUTTON
+btn = Button(l1, text = "EXIT", bd = "25", background = "skyblue",
+                                command = l1.destroy).place(x = 600, y = 750)
+#CREATE A LABEL
+lbl_user = Label(l1, text = "USERNAME", font = ("helvetica", 20, "bold"),
+                                bg = "blue", fg = "red", relief = "raised",
+                                borderwidth = 5).place(x = 400, y = 500)
+lbl_pass = Label(l1, text = "PASSWORD", font = ("helvetica", 20, "bold"),
+                                bg = "red", fg = "blue", relief = "raised",
+                                borderwidth = 5).place(x = 400, y = 550)
+#CREATING A TEXT ENTRY BOX
+txt_user = Entry(l1, font = ("helvetica", 20, "bold"), width = 30).place(x = 570, y = 500)
+txt_pass = Entry(l1, show = "X",font = ("helvetica", 20, "bold"),width = 30).place(x = 575, y = 550)
+l1.mainloop()
