@@ -1,0 +1,37 @@
+from tkinter import *
+l3 = Tk()
+l3.title("Weight converter")
+l3.config(background = "grey")
+def convert():
+    pound = float(txt_kg.get())*2.20462
+    ounce = float(txt_kg.get())*35.274
+    stone = float(txt_kg.get())*0.157473
+    txt_lbs.delete("1.0",END)
+    txt_lbs.insert(END,pound)
+    txt_lbs.config(state="disabled")
+    txt_oz.delete("1.0",END)
+    txt_oz.insert(END,ounce)
+    txt_oz.config(state="disabled")
+    txt_st.delete("1.0",END)
+    txt_st.insert(END,stone)
+    txt_st.config(state="disabled")
+lbl_kg = Label(l3, text = "Enter the weight in kg")
+txt_kg = Entry(l3,textvariable=StringVar(), width = 10)
+lbl_lbs = Label(l3, text = "pounds")
+lbl_oz = Label(l3, text = "ounces")
+lbl_st = Label(l3, text = "stones")
+txt_lbs = Text(l3,height = 1,width = 20)
+txt_oz = Text(l3,height = 1,width = 20)
+txt_st = Text(l3,height = 1,width = 20)
+btn = Button(l3, text = "Convert",command = convert)
+#using the grid method to place the widgets in a table like structure
+lbl_kg.grid(row=0,column=0)
+txt_kg.grid(row=0,column=1)
+lbl_lbs.grid(row=1,column=0)
+lbl_oz.grid(row=1,column=1)
+lbl_st.grid(row=1,column=2)
+txt_lbs.grid(row=2,column=0)
+txt_oz.grid(row=2,column=1)
+txt_st.grid(row=2,column=2)
+btn.grid(row=0,column=2)
+l3.mainloop()
