@@ -1,0 +1,26 @@
+from tkinter import *
+from tkinter.ttk import *
+win = Tk()
+#progrss bar widget
+progress = Progressbar(win, orient=HORIZONTAL,length=200,mode="determinate")
+def A_Update():
+    import time
+    progress["value"]=20
+    win.update_idletasks()
+    time.sleep(1)
+    progress["value"]=40
+    win.update_idletasks()
+    time.sleep(1)
+    progress["value"]=60
+    win.update_idletasks()
+    time.sleep(1)
+    progress["value"]=80
+    win.update_idletasks()
+    time.sleep(1)
+    progress["value"]=99
+    win.update_idletasks()
+    time.sleep(1)
+    progress["value"]=100
+progress.pack(pady=10)
+Button(win,text="Rress to start",command=A_Update).pack(pady=20)
+mainloop()
