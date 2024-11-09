@@ -10,62 +10,64 @@ def pc(pi):
     print(ci)
     print(pc)
     pcl.config(text="Player choice:"+pi[0])
-    ccl.config(text="Computer coice:"+ci[0])
+    ccl.config(text="AI choice:"+ci[0])
     psl.config(text="Player Score:"+str(ps))
-    csl.config(text="Computer Score:"+str(cs))
+    csl.config(text="AI Score:"+str(cs))
     if(pi==ci):
         st.config(text="TIE")
         psl.config(text="Player Score:"+str(ps))
-        csl.config(text="Computer Score:"+str(cs))
+        csl.config(text="AI Score:"+str(cs))
     if(pi[1]==0):
         if(ci[1]==1):
             cs+=1
-            st.config(text="COMPUTER P0INT")
+            st.config(text="AI P0INT")
             psl.config(text="Player Score:"+str(ps))
-            csl.config(text="Computer Score:"+str(cs))
+            csl.config(text="AI Score:"+str(cs))
         elif(ci[1]==2):
             ps+=1
             st.config(text="PLAYER P0INT")
             psl.config(text="Player Score:"+str(ps))
-            csl.config(text="Computer Score:"+str(cs))
+            csl.config(text="AI Score:"+str(cs))
     if(pi[1]==1):
         if(ci[1]==0):
             ps+=1
             st.config(text="PLAYER P0INT")
             psl.config(text="Player Score:"+str(ps))
-            csl.config(text="Computer Score:"+str(cs))
+            csl.config(text="AI Score:"+str(cs))
         elif(ci[1]==2):
             cs+=1
-            st.config(text="COMPUTER P0INT")
+            st.config(text="AI P0INT")
             psl.config(text="Player Score:"+str(ps))
-            csl.config(text="Computer Score:"+str(cs))
+            csl.config(text="AI Score:"+str(cs))
     if(pi[1]==2):
         if(ci[1]==0):
             cs+=1
-            st.config(text="COMPUTER     P0INT")
+            st.config(text="AI P0INT")
             psl.config(text="Player Score:"+str(ps))
-            csl.config(text="Computer Score:"+str(cs))
+            csl.config(text="AI Score:"+str(cs))
         elif(ci[1]==1):
             ps+=1
             st.config(text="PLAYER P0INT")
             psl.config(text="Player Score:"+str(ps))
-            csl.config(text="Computer Score:"+str(cs))
+            csl.config(text="AI Score:"+str(cs))
 
 win = Tk()
 win.title("R.P.S")
 app_font=font.Font(size=12)
-gt=Label(win,text="Rock,Paper,Scissors",font=font.Font(size=40),fg="lightblue").pack()
-st=Label(win,text="Player vs Computer:\nWho's going to prevail?",font=font.Font(size=20),fg="purple").pack()
+gt=Label(win,text="Rock,Paper,Scissors",font=font.Font(size=40),fg="lightblue")
+gt.pack()
+st=Label(win,text="Player vs AI:\nWho's going to prevail?",font=font.Font(size=20),fg="purple")
+st.pack()
 fr=Frame(win)
 fr.pack()
 
 rb=Button(fr,text="Rock\nO",width=15,bg="grey",pady=5,command=lambda:pc(options[0]))
 rb.grid(row=1,column=1,padx=8,pady=5)
 
-pb=Button(fr,text="Paper\n[]",width=15,bg="white",pady=5,command=exit)
+pb=Button(fr,text="Paper\n[]",width=15,bg="white",pady=5,command=lambda:pc(options[1]))
 pb.grid(row=1,column=2,padx=8,pady=5)
 
-sb=Button(fr,text="Scissors\n8<",width=15,bg="silver",pady=5,command=exit)
+sb=Button(fr,text="Scissors\n8<",width=15,bg="silver",pady=5,command=lambda:pc(options[2]))
 sb.grid(row=1,column=3,padx=8,pady=5)
 #displaying score & players choice
 
@@ -73,11 +75,11 @@ pcl=Label(fr,text="Player's choice:",font=font.Font(size=20),fg="blue")
 pcl.grid(row=3,column=1,pady=5)
 
 psl=Label(fr,text="Your Score:",font=font.Font(size=20),fg="hotpink")
-psl.grid(row=3,column=2,pady=5)
+psl.grid(row=3,column=2,pady=5,padx=30)#
 
-ccl=Label(fr,text="Computer's choice:",font=font.Font(size=20),fg="green")
+ccl=Label(fr,text="AI's choice:",font=font.Font(size=20),fg="green")
 ccl.grid(row=4,column=1,pady=5)
 
-csl=Label(fr,text="Computer Score:",font=font.Font(size=20),fg="orange")
-csl.grid(row=4,column=2,pady=5)
+csl=Label(fr,text="AI Score:",font=font.Font(size=20),fg="orange")
+csl.grid(row=4,column=2,pady=5,padx=30)#
 mainloop()
