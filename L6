@@ -1,0 +1,13 @@
+from tkinter import *
+from tkinter.ttk import *
+from time import strftime
+win=Tk()
+win.title("CLOCK")
+def time():
+    ft=strftime("%A,   %d/%m/%Y,  %H:%M:%S %p")
+    clock.config(text=ft)
+    clock.after(1000,time)
+clock = Label(win,font=("Helvetica",40,"bold"),background="orange",foreground="white")
+clock.pack()
+time()
+mainloop()
