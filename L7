@@ -1,0 +1,24 @@
+from tkinter import *
+import random
+import tkinter.messagebox
+win=Tk()
+win.geometry("800x600")
+win.title("A Little Game")
+def OK():
+    Name=name.get()
+    tkinter.messagebox.showinfo(message="Hi there "+Name+". I'm thinking of a number from 1 and 100. You are going to try and guess my number!")
+title=Label(win,text="Hello there! Welcome to my little game",
+            font=("helvetica",20,"bold"))
+title.pack()
+label=Label(win,text="What's your name?",font=("helvetica",20))
+label.place(x=50,y=100)
+name=Entry(win, font = ("helvetica", 20, "italic"), width = 30)
+name.place(x=60, y = 150)
+btn = Button(win, text = "OK",command = OK).place(x=600,y=150)
+label2=Label(win,text="Take a guess:",font=("helvetica",20))
+label2.place(x=50,y=300)
+guess=Entry(win, font = ("helvetica", 20, "bold"), width = 30)
+guess.place(x=60, y = 350)
+btn2 = Button(win, text = "Guess",command = win.destroy).place(x=600,y=350)
+
+mainloop()
