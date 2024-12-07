@@ -1,0 +1,32 @@
+from tkinter import *
+import tkinter.messagebox
+import time
+win=Tk()
+win.geometry("350x250")
+win.title("Timer")
+vhrs=StringVar()
+vmin=StringVar()
+vsec=StringVar()
+vhrs.set("00")
+vmin.set("00")
+vsec.set("00")
+def get_time():
+    temp=int(hrs.get())*3600+int(min.get())*60+int(sec.get())
+    while temp>-1:
+        total_min,total_sec=divmod(temp,60)
+        total_hrs=0
+        if total_min>60:
+            total_hrs,total_min=divmod(total_min,60)
+        vhrs.set("{00:2d}".format(total_hrs))
+        vmin.set("{00:2d}".format(total_min))
+        vsec.set("{00:2d}".format(total_sec))
+        win.update()
+        time.sleep(1)
+        if temp==0:
+            win.messagebox.showinfo(message="TIME'S UP!")
+        temp-=1
+sec=Entry(win, textvariable=vsec, font = ("helvetica", 20, "italic"), width = 3).place(x=50,y=75)
+min=Entry(win, textvariable=vmin, font = ("helvetica", 20, "italic"), width = 3).place(x=150,y=75)
+hrs=Entry(win, textvariable=vhrs, font = ("helvetica", 20, "italic"), width = 3).place(x=250,y=75)
+countdown= Button(win, text = "START COUNTDOWN",command = get_time).place(x=98,y=150)
+mainloop()
