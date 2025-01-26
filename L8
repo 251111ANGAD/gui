@@ -1,5 +1,5 @@
 from tkinter import *
-import tkinter.messagebox
+from tkinter import messagebox
 import time
 win=Tk()
 win.geometry("350x250")
@@ -11,7 +11,7 @@ vhrs.set("00")
 vmin.set("00")
 vsec.set("00")
 def get_time():
-    temp=int(hrs.get())*3600+int(min.get())*60+int(sec.get())
+    temp=int(vhrs.get())*3600+int(vmin.get())*60+int(vsec.get())
     while temp>-1:
         total_min,total_sec=divmod(temp,60)
         total_hrs=0
@@ -23,10 +23,10 @@ def get_time():
         win.update()
         time.sleep(1)
         if temp==0:
-            win.messagebox.showinfo(message="TIME'S UP!")
+            messagebox.showinfo(message="TIME'S UP!")
         temp-=1
-sec=Entry(win, textvariable=vsec, font = ("helvetica", 20, "italic"), width = 3).place(x=50,y=75)
+sec=Entry(win, textvariable=vsec, font = ("helvetica", 20, "italic"), width = 3).place(x=250,y=75)
 min=Entry(win, textvariable=vmin, font = ("helvetica", 20, "italic"), width = 3).place(x=150,y=75)
-hrs=Entry(win, textvariable=vhrs, font = ("helvetica", 20, "italic"), width = 3).place(x=250,y=75)
+hrs=Entry(win, textvariable=vhrs, font = ("helvetica", 20, "italic"), width = 3).place(x=50,y=75)
 countdown= Button(win, text = "START COUNTDOWN",command = get_time).place(x=98,y=150)
 mainloop()
