@@ -1,0 +1,25 @@
+from tkinter import *
+from tkinter.filedialog import *
+from tkinter import messagebox
+win=Tk()
+win.title("File diary")
+
+save = Button(win, text = "SAVE",width=30,command = None)
+save.grid(row=1,column=1,padx=20,pady=10)
+
+content = Entry(win, width = 30)
+content.grid(row=2,column=1,padx=20,pady=10)
+
+add = Button(win, text = "ADD",width=30,command = None)
+add.grid(row=3,column=1,padx=20,pady=10)
+
+open = Button(win, text = "OPEN",width=30,command = None)
+open.grid(row=1,column=2,padx=20,pady=10)
+
+delete = Button(win, text = "DELETE",width=30,command = None)
+delete.grid(row=2,column=2,padx=20,pady=10)
+
+file=Listbox(win,width=50,bg="lightblue")
+file.insert(END,"PLEASE OPEN YOU FILE TO BE DISPLAYED HERE")
+file.grid(row=4,column=2,padx=20,pady=10)
+mainloop()
