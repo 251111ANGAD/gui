@@ -1,54 +1,52 @@
 from tkinter import *
+from tkinter.filedialog import *
+from tkinter import messagebox
 win=Tk()
-win.title("TIMES TABLES GENERATOR")
-val=IntVar()
-func_val=IntVar()
+win.title("File diary")
 
-def disable_entry():
-    entry2.config(state=DISABLED)
-def enable_entry():
-    entry2.config(state=NORMAL)
+def Add():
+    select=listbox.curselection()
+    if select:
+        listbox.insert(select,content.get())
+        content.delete(0,END)
 
+def Delete():
+    select=listbox.curselection()
+    if select:
+        listbox.delete(select)
 
-radio1=Radiobutton(win,text="5",variable=val,value=5,command=disable_entry).grid(row=1,column=2)
-radio2=Radiobutton(win,text="6",variable=val,value=6,command=disable_entry).grid(row=1,column=3)
-radio3=Radiobutton(win,text="10",variable=val,value=10,command=disable_entry).grid(row=2,column=2)
-radio4=Radiobutton(win,text="12",variable=val,value=12,command=disable_entry).grid(row=2,column=3)
-radio5=Radiobutton(win,text="15",variable=val,value=15,command=disable_entry).grid(row=3,column=2)
-radio6=Radiobutton(win,text="18",variable=val,value=18,command=disable_entry).grid(row=3,column=3)
-radio7=Radiobutton(win,text="20",variable=val,value=20,command=disable_entry).grid(row=4,column=2)
-radio8=Radiobutton(win,text="24",variable=val,value=24,command=disable_entry).grid(row=4,column=3)
+def save():
+    files=[("All files","*.*")]
+    file=asksaveasfile(filetypes=files,defaultextension=files)
+    if file is not None:
+        for i in listbox.get(0,END):
+            print(i,file=file)
+        listbox.delete(0,END)
 
-radiolist=[radio1,radio2,radio3,radio4,radio5,radio6,radio7,radio8]
+def open12():
+    file11=askopenfile(mode="r",filetypes=[("All files","*.*")])
+    global content0
+    if file11:
+        listbox.delete(0, END)
+        content0=file11.readlines()
+        for i in content0:
+            listbox.insert(END,i)      
 
-reset=Radiobutton(win,text="Reset",variable=val,value=0,command=enable_entry).grid(row=4,column=1)
+save = Button(win, text = "SAVE",width=30,command = save)
+save.grid(row=2,column=1,padx=20,pady=10)
 
-def displaytable():
-    s_val=""
-    entget=int(entry1.get())
-    for i in range(1,val.get()+1):
-        s_val+=str(entget)+"x"+str(i)+"="+str(entget*i)+"\n"
-    label3.config(text=s_val)
+content = Entry(win, width = 30)
+content.grid(row=3,column=1,padx=20,pady=10)
 
+add = Button(win, text = "ADD",width=30,command = Add)
+add.grid(row=4,column=1,padx=20,pady=10)
 
+open = Button(win, text = "OPEN",width=30,command = open12)
+open.grid(row=5,column=1,padx=20,pady=10)
 
-label4=Label(win, text = "Other multiplier")
-label4.grid(row=2,column=1)
+delete = Button(win, text = "DELETE",width=30,command = Delete)
+delete.grid(row=6,column=1,padx=20,pady=10)
 
-label1=Label(win, text = "Times Tables Generator")
-label1.grid(row=0,column=0,columnspan=3,pady=30)
-
-label2=Label(win, text = "Times Tables:")
-label2.grid(row=1,column=0,padx=15)
-
-entry1=Entry(win)
-entry1.grid(row=1,column=1)
-entry2=Entry(win,textvariable=val)
-entry2.grid(row=3,column=1)
-
-reset=Radiobutton(win,text="Reset",variable=val,value=0,command=enable_entry).grid(row=4,column=1)
-
-button1=Button(win,text="Generate",command=displaytable).grid(row=6,column=1)
-label3=Label(win)
-label3.grid(row=7,column=1,padx=2)
+listbox=Listbox(win,width=70,height=20,bg="lightblue")
+listbox.grid(row=1,column=1,padx=10,pady=10)
 mainloop()
