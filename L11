@@ -11,9 +11,39 @@ class tic_tac_toe:
     def create_button(self):
         for row in range(3):
             for column in range(3):
-                button=Button(self.root,text="",font=("Helvetica",40),width=5,height=2,command=root.destroy)
+                button=Button(self.root,text="",font=("Helvetica",40),width=5,height=2, command=lambda r=row,c=column:self.click(r,c))
                 button.grid(row=row,column=column)
                 self.buttons[row][column]=button
+    def win(self):
+        for i in range(3):
+            if self.buttons[i][0]["text"]==self.buttons[i][1]["text"]==self.buttons[i][2]["text"]!="":
+                return True
+        for j in range(3):
+            if self.buttons[0][j]["text"]==self.buttons[1][j]["text"]==self.buttons[2][j]["text"]!="":
+                return True
+        if self.buttons[0][0]["text"]==self.buttons[1][1]["text"]==self.buttons[2][2]["text"]!="":
+            return True
+        if self.buttons[2][0]["text"]==self.buttons[1][1]["text"]==self.buttons[0][2]["text"]!="":
+            return True
+        return False
+    def full(self):
+        return all(self.buttons[i][j]['text'] != "" for i in range(3) for j in range(3))
+    def click(self,r,c):
+        if self.buttons[r][c]["text"]=="" and not self.win():
+            self.buttons[r][c]["text"]=self.player
+            if self.win():
+                messagebox.showinfo(message=f"GAME OVER\n{self.player} wins")
+                self.clear()
+            elif self.full(): 
+                messagebox.showinfo(message="GAME OVER\nIt's a tie")
+                self.clear()
+            else:
+                self.player="X" if self.player=="O" else "O"
+    def clear(self):
+        for i in range(3):
+            for j in range(3):
+                self.buttons[i][j]["text"]=""
+        self.player="X"
 root=Tk()
 game=tic_tac_toe(root)
 mainloop()
