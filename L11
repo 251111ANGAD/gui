@@ -1,49 +1,65 @@
-from tkinter import *
-from tkinter import messagebox
-class tic_tac_toe:
-    def __init__(self,root):
-        self.root=root
-        self.root.title("Noughts and Crosses")
-        self.player="O"
-        self.buttons=[[None for i in range(3)]for i in range(3)]
-        print(self.buttons)
-        self.create_button()
-    def create_button(self):
-        for row in range(3):
-            for column in range(3):
-                button=Button(self.root,text="",font=("Helvetica",40),width=5,height=2, command=lambda r=row,c=column:self.click(r,c))
-                button.grid(row=row,column=column)
-                self.buttons[row][column]=button
-    def win(self):
-        for i in range(3):
-            if self.buttons[i][0]["text"]==self.buttons[i][1]["text"]==self.buttons[i][2]["text"]!="":
-                return True
-        for j in range(3):
-            if self.buttons[0][j]["text"]==self.buttons[1][j]["text"]==self.buttons[2][j]["text"]!="":
-                return True
-        if self.buttons[0][0]["text"]==self.buttons[1][1]["text"]==self.buttons[2][2]["text"]!="":
-            return True
-        if self.buttons[2][0]["text"]==self.buttons[1][1]["text"]==self.buttons[0][2]["text"]!="":
-            return True
-        return False
-    def full(self):
-        return all(self.buttons[i][j]['text'] != "" for i in range(3) for j in range(3))
-    def click(self,r,c):
-        if self.buttons[r][c]["text"]=="" and not self.win():
-            self.buttons[r][c]["text"]=self.player
-            if self.win():
-                messagebox.showinfo(message=f"GAME OVER\n{self.player} wins")
-                self.clear()
-            elif self.full(): 
-                messagebox.showinfo(message="GAME OVER\nIt's a tie")
-                self.clear()
+import tkinter as tk
+from tkinter import messagebox, simpledialog
+class TicTacToe:
+    def __init__(self, root, rows, cols):
+        self.root = root
+        self.root.title("Tic Tac Toe")
+        self.current_player = "X"
+        self.rows = rows
+        self.cols = cols
+        self.buttons = [[None for _ in range(cols)] for _ in range(rows)]
+        self.create_widgets()
+    
+    def create_widgets(self):
+        for row in range(self.rows):
+            for col in range(self.cols):
+                button = tk.Button(self.root, text="", font=('normal', 40), width=5, height=2,
+                                   command=lambda r=row, c=col: self.on_button_click(r, c))
+                button.grid(row=row, column=col)
+                self.buttons[row][col] = button
+    def on_button_click(self, row, col):
+        if self.buttons[row][col]['text'] == "" and not self.check_winner():
+            self.buttons[row][col]['text'] = self.current_player
+            if self.check_winner():
+                messagebox.showinfo("Game Over", f"Player {self.current_player} wins!")
+                self.reset_game()
+            elif self.is_board_full():
+                messagebox.showinfo("Game Over", "It's a tie!")
+                self.reset_game()
             else:
-                self.player="X" if self.player=="O" else "O"
-    def clear(self):
-        for i in range(3):
-            for j in range(3):
-                self.buttons[i][j]["text"]=""
-        self.player="X"
-root=Tk()
-game=tic_tac_toe(root)
-mainloop()
+                self.current_player = "O" if self.current_player == "X" else "X"
+    def check_winner(self):
+        # Check rows
+        for row in range(self.rows):
+            if all(self.buttons[row][col]['text'] == self.current_player for col in range(self.cols)):
+                return True
+        # Check columns
+        for col in range(self.cols):
+            if all(self.buttons[row][col]['text'] == self.current_player for row in range(self.rows)):
+                return True
+        # Check diagonals (only if the grid is square)
+        if self.rows == self.cols:
+            if all(self.buttons[i][i]['text'] == self.current_player for i in range(self.rows)):
+                return True
+            if all(self.buttons[i][self.rows - 1 - i]['text'] == self.current_player for i in range(self.rows)):
+                return True
+        return False
+    def is_board_full(self):
+        return all(self.buttons[row][col]['text'] != "" for row in range(self.rows) for col in range(self.cols))
+    def reset_game(self):
+        for row in range(self.rows):
+            for col in range(self.cols):
+                self.buttons[row][col]['text'] = ""
+        self.current_player = "X"
+def get_grid_size():
+    root = tk.Tk()
+    root.withdraw()  # Hide the root window
+    rows = simpledialog.askinteger("Input", "Enter number of rows:", minvalue=3, maxvalue=10)
+    cols = simpledialog.askinteger("Input", "Enter number of columns:", minvalue=3, maxvalue=10)
+    root.destroy()
+    return rows, cols
+if __name__ == "__main__":
+    rows, cols = get_grid_size()
+    root = tk.Tk()
+    game = TicTacToe(root, rows, cols)
+    root.mainloop()
