@@ -3,7 +3,9 @@
 import pygame
 import random
 pygame.init()
-screen=pygame.display.set_mode((1000,800))
+screen=pygame.display.set_mode((1024,1024))
+score=0
+lives=7
 class Heart_Bomb(pygame.sprite.Sprite):
     def __init__(self,image):
         super().__init__()
@@ -17,6 +19,8 @@ class Heart_Bomb(pygame.sprite.Sprite):
         self.rect.y+=random.randint(1,3)
         if self.rect.y==800:
             self.reset()
+            global score,lives
+            score-=1
 class Player(Heart_Bomb):
     def update(self):
         mouse_pos=pygame.mouse.get_pos()
@@ -25,34 +29,44 @@ class Player(Heart_Bomb):
 h=pygame.sprite.Group()
 b=pygame.sprite.Group()
 all=pygame.sprite.Group()
-for i in range(15):
+for i in range(21):
     hearts=Heart_Bomb("C:\\Users\\denis\\OneDrive\\Desktop\\Angad\\JetLearn\PY--Gamedev2\\Mothers Day Project 2025\\heart.png")
     h.add(hearts)
     all.add(hearts)
-for i in range(12):
+for i in range(18):
     bombs=Heart_Bomb("C:\\Users\\denis\\OneDrive\\Desktop\\Angad\\JetLearn\PY--Gamedev2\\Mothers Day Project 2025\\bomb.png")
     b.add(bombs)
     all.add(bombs)
 person=Player("C:\\Users\\denis\\OneDrive\\Desktop\\Angad\\JetLearn\PY--Gamedev2\\Mothers Day Project 2025\\person.png")
 all.add(person)
 clock=pygame.time.Clock()
+bg=pygame.image.load("C:\\Users\\denis\\OneDrive\\Desktop\\Angad\\JetLearn\\PY--Gamedev2\\Mothers Day Project 2025\\a happy mothers day with no people.png")
+lose=pygame.image.load("C:\\Users\\denis\\OneDrive\\Desktop\\Angad\\JetLearn\\PY--Gamedev2\\Mothers Day Project 2025\\ChatGPT Image May 4, 2025, 10_31_31 AM.png")
+win=pygame.image.load("C:\\Users\\denis\\OneDrive\\Desktop\\Angad\\JetLearn\\PY--Gamedev2\\Mothers Day Project 2025\\ChatGPT Image May 4, 2025, 10_47_49 AM.png")
 while True:
     for i in pygame.event.get():
         if i.type==pygame.QUIT:
             exit()
-    for i in h:
-        if i.y>=800:
-            score-=1
-    screen.fill("white")
+    screen.blit(bg,(0,0))
     all.update()
     collision_heart=pygame.sprite.spritecollide(person,h,False)
     collision_bomb=pygame.sprite.spritecollide(person,b,False)
     for i in collision_heart:
         i.reset()
         score+=1
+        if score==80:
+            screen.blit(win,(0,0))
+            pygame.display.update()
+            pygame.time.wait(60000)
+            break
     for j in collision_bomb:
         j.reset()
         lives-=1
+        if lives==0:
+            screen.blit(lose,(0,0))
+            pygame.display.update()
+            pygame.time.wait(60000)
+            break
     all.draw(screen)
     clock.tick(60)
     pygame.display.update()
