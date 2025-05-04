@@ -9,6 +9,7 @@ class Heart_Bomb(pygame.sprite.Sprite):
         super().__init__()
         self.image=pygame.transform.scale(pygame.image.load(image),(50,50))
         self.rect=self.image.get_rect()
+        self.reset()
     def reset(self):
         self.rect.x=random.randint(51,749)
         self.rect.y=random.randint(-300,-20)
@@ -24,11 +25,11 @@ class Player(Heart_Bomb):
 h=pygame.sprite.Group()
 b=pygame.sprite.Group()
 all=pygame.sprite.Group()
-for i in range(100):
+for i in range(15):
     hearts=Heart_Bomb("C:\\Users\\denis\\OneDrive\\Desktop\\Angad\\JetLearn\PY--Gamedev2\\Mothers Day Project 2025\\heart.png")
     h.add(hearts)
     all.add(hearts)
-for i in range(70):
+for i in range(12):
     bombs=Heart_Bomb("C:\\Users\\denis\\OneDrive\\Desktop\\Angad\\JetLearn\PY--Gamedev2\\Mothers Day Project 2025\\bomb.png")
     b.add(bombs)
     all.add(bombs)
@@ -39,10 +40,19 @@ while True:
     for i in pygame.event.get():
         if i.type==pygame.QUIT:
             exit()
+    for i in h:
+        if i.y>=800:
+            score-=1
     screen.fill("white")
     all.update()
     collision_heart=pygame.sprite.spritecollide(person,h,False)
     collision_bomb=pygame.sprite.spritecollide(person,b,False)
+    for i in collision_heart:
+        i.reset()
+        score+=1
+    for j in collision_bomb:
+        j.reset()
+        lives-=1
     all.draw(screen)
-    clock.tick(50)
+    clock.tick(60)
     pygame.display.update()
