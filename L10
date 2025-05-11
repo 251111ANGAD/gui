@@ -1,25 +1,118 @@
 from tkinter import *
-from tkinter.filedialog import *
 from tkinter import messagebox
+from tkinter.filedialog import *
+from tkinter.ttk import *
 win=Tk()
-win.title("File diary")
+win.title("Adress Book")
 
-save = Button(win, text = "SAVE",width=30,command = None)
-save.grid(row=1,column=1,padx=20,pady=10)
+details={}
 
-content = Entry(win, width = 30)
-content.grid(row=2,column=1,padx=20,pady=10)
+def update():
+    key=name_entry.get()
+    if key=="":
+        messagebox.showerror(title="Invalid field entry",message="Please fill out the name field")
+    else:
+        if key not in details.keys():
+            my_adress_book_listbox.insert(END,key)
+        details[key]=adress_entry.get(),mobile_entry.get(),email_entry.get(),birthday_entry.get()
+        clear_entry()
+    print(details)
 
-add = Button(win, text = "ADD",width=30,command = None)
-add.grid(row=3,column=1,padx=20,pady=10)
+def clear_entry():
+    name_entry.delete(0,END)
+    adress_entry.delete(0,END)
+    email_entry.delete(0,END)
+    mobile_entry.delete(0,END)
+    birthday_entry.delete(0,END)
 
-open = Button(win, text = "OPEN",width=30,command = None)
-open.grid(row=1,column=2,padx=20,pady=10)
+def save():
+    file=asksaveasfile(defaultextension=".txt")
+    if file:
+        print(details,file=file)
+        my_adress_book_listbox.delete(0,END)
+        details.clear()
+    else:
+        messagebox.showwarning(title="Your data may get deleted",message="Please save your work")
 
-delete = Button(win, text = "DELETE",width=30,command = None)
-delete.grid(row=2,column=2,padx=20,pady=10)
+def open():
+    global details
+    my_adress_book_listbox.delete(0,END)
+    details.clear()
+    messagebox.showinfo(title="For your infomation",message="Please do not close any windows")
+    file_open=askopenfile()
+    if file_open:
+        details=eval(file_open.read())
+        for i in details.keys():
+            my_adress_book_listbox.insert(END,i)
+    else:
+        messagebox.showerror(title="Operation unsuccessful",message="Please try again")
 
-file=Listbox(win,width=50,bg="lightblue")
-file.insert(END,"PLEASE OPEN YOU FILE TO BE DISPLAYED HERE")
-file.grid(row=4,column=2,padx=20,pady=10)
+def display(event):
+    info=Toplevel(win)
+    index=my_adress_book_listbox.curselection()
+    content=""
+    if index:
+        key=my_adress_book_listbox.get(index)
+        content=f"Name:{key}\n"
+        data=details[key]
+        content+=f"Adress:{data[0]}\n"
+        content+=f"Mobile:{data[1]}\n"
+        content+=f"Email:{data[2]}\n"
+        content+=f"Birthday:{data[3]}\n"
+    label=Label(info,text=content)
+    label.pack()
+
+
+my_adress_book_label=Label(win,text="My Adress Book",width=30)
+my_adress_book_label.grid(row=0,column=1,columnspan=3)
+
+open_button=Button(win,text="Open",command=open)
+open_button.grid(row=0,column=3)
+
+my_adress_book_listbox=Listbox(win,height=15,width=30)
+my_adress_book_listbox.grid(row=1,column=0,columnspan=3,rowspan=6)
+my_adress_book_listbox.bind("<<ListboxSelect>>",display)
+
+name_label=Label(win,text="Name:")
+name_label.grid(row=2,column=3)
+
+adress_label=Label(win,text="Adress:")
+adress_label.grid(row=3,column=3)
+
+mobile_label=Label(win,text="Mobile:")
+mobile_label.grid(row=4,column=3)
+
+email_label=Label(win,text="Email:")
+email_label.grid(row=5,column=3)
+
+bithday_label=Label(win,text="Birthday:")
+bithday_label.grid(row=6,column=3)
+
+edit_button=Button(win,text="Edit",command=None)
+edit_button.grid(row=7,column=0)
+
+delete_button=Button(win,text="Delete",command=None)
+delete_button.grid(row=7,column=1)
+
+update_button=Button(win,text="Update/Add",command=update)
+update_button.grid(row=7,column=4)
+
+save_button=Button(win,text="Save",command=save,width=30)
+save_button.grid(row=8,column=1,columnspan=3)
+
+name_entry=Entry(win)
+name_entry.grid(row=2,column=4,padx=5)
+
+adress_entry=Entry(win)
+adress_entry.grid(row=3,column=4,padx=5)
+
+mobile_entry=Entry(win)
+mobile_entry.grid(row=4,column=4,padx=5)
+
+email_entry=Entry(win)
+email_entry.grid(row=5,column=4,padx=5)
+
+birthday_entry=Entry(win)
+birthday_entry.grid(row=6,column=4,padx=5)
+
 mainloop()
