@@ -36,8 +36,8 @@ def save():
 
 def open():
     global details
-    my_adress_book_listbox.delete(0,END)
-    details.clear()
+    #my_adress_book_listbox.delete(0,END)
+    #details.clear()
     messagebox.showinfo(title="For your infomation",message="Please do not close any windows")
     file_open=askopenfile()
     if file_open:
@@ -62,6 +62,25 @@ def display(event):
     label=Label(info,text=content)
     label.pack()
 
+def edit():
+    index=my_adress_book_listbox.curselection()
+    if index:
+        name_entry.insert(0,my_adress_book_listbox.get(index))
+        data=details[name_entry.get()]
+        adress_entry.insert(0,data[0])
+        mobile_entry.insert(0,data[1])
+        email_entry.insert(0,data[2])
+        birthday_entry.insert(0,data[3])
+    else:
+        messagebox.showerror(title="Operation unsuccessful",message="Select a name first")
+
+def delete():
+    index=my_adress_book_listbox.curselection()
+    if index:
+        del details[my_adress_book_listbox.get(index)]
+        my_adress_book_listbox.delete(index)
+    else:
+        messagebox.showerror(title="Operation unsuccessful",message="Select a name first")
 
 my_adress_book_label=Label(win,text="My Adress Book",width=30)
 my_adress_book_label.grid(row=0,column=1,columnspan=3)
@@ -88,10 +107,10 @@ email_label.grid(row=5,column=3)
 bithday_label=Label(win,text="Birthday:")
 bithday_label.grid(row=6,column=3)
 
-edit_button=Button(win,text="Edit",command=None)
+edit_button=Button(win,text="Edit",command=edit)
 edit_button.grid(row=7,column=0)
 
-delete_button=Button(win,text="Delete",command=None)
+delete_button=Button(win,text="Delete",command=delete)
 delete_button.grid(row=7,column=1)
 
 update_button=Button(win,text="Update/Add",command=update)
