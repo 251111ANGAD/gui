@@ -1,0 +1,17 @@
+from tkinter import *
+from tkinter.ttk import *
+from gtts import gTTS
+import os
+win=Tk()
+win.title("Media player")
+
+def convert():
+    audio=gTTS(text=entry.get(),lang="en",slow=False)
+    audio.save("Text_to_Speech.wav")
+    os.system("Text_to_Speech.wav")
+
+label=Label(win,text="Text to speech").grid(row=1,column=1)
+entry=Entry(win,width=45)
+entry.grid(row=2,column=1)
+button=Button(win,text="Convert",command=convert).grid(row=3,column=1)
+mainloop()
