@@ -1,0 +1,42 @@
+from tkinter import *
+from tkinter.ttk import *
+import speech_recognition as sr
+from tkinter import messagebox as msg
+from tkinter.filedialog import *
+import threading
+win=Tk()
+win.title("Voice Memos\nSpeech to Text")
+
+is_recording=False
+
+def listen():
+    global is_recording
+    listener=sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Start Speaking")
+        try:
+            audio=listener.listen(source,timeout=10)
+            text=listener.recognize_google(audio)
+        except sr.WaitTimeoutError:
+            text="Timeout Error"
+        except sr.UnknownValueError:
+            text="Unrecognisable Speech"
+        except sr.RequestError:
+            text="API Error"
+        text_w.insert(END,text+"\n")
+
+
+def save():
+    file=asksaveasfile(defaultextension=".txt")
+    if file:
+        print(text_w.get(1.0,END),file=file)
+    else:
+        msg.showwarning(title="Your data may get deleted",message="Please save your work")
+
+
+label=Label(win,text="Speech to Text").grid(row=1,column=1)
+text_w=Text(win,width=40,height=10)
+text_w.grid(row=2,column=1)
+start_button=Button(win,text=" Start Recording",command=listen).grid(row=3,column=1)
+save_button=Button(win,text="Save Recording",command=save).grid(row=5,column=1)
+mainloop()
