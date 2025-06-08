@@ -1,0 +1,106 @@
+from tkinter import *
+from tkinter.ttk import *
+import random
+from tkinter import messagebox
+win=Tk()
+win.title("Anagrams")
+
+score=0
+questions=0
+
+words = [
+    # A
+    "apple", "angle", "amaze", "actor", "animal",
+    # B
+    "banana", "bottle", "brave", "bring", "build",
+    # C
+    "cat", "camera", "carry", "create", "circle",
+    # D
+    "dog", "dance", "dream", "draw", "drive",
+    # E
+    "elephant", "engine", "enter", "energy", "early",
+    # F
+    "fish", "fruit", "frame", "flame", "follow",
+    # G
+    "goat", "grape", "great", "group", "guess",
+    # H
+    "hat", "house", "happy", "honest", "hover",
+    # I
+    "ice", "idea", "image", "invite", "iron",
+    # J
+    "jam", "jelly", "joke", "jump", "jungle",
+    # K
+    "kite", "king", "kick", "keep", "knock",
+    # L
+    "lion", "lamp", "leaf", "learn", "laugh",
+    # M
+    "mouse", "milk", "mountain", "magic", "move",
+    # N
+    "nose", "name", "nail", "night", "note",
+    # O
+    "orange", "ocean", "offer", "open", "orbit",
+    # P
+    "pen", "paper", "play", "plant", "party",
+    # Q
+    "queen", "quick", "quiet", "quest", "quote",
+    # R
+    "rat", "rain", "river", "road", "reach",
+    # S
+    "sun", "star", "smile", "shine", "stone",
+    # T
+    "tree", "train", "table", "talk", "trust",
+    # U
+    "umbrella", "under", "use", "usual", "urgent",
+    # V
+    "van", "vase", "voice", "visit", "value",
+    # W
+    "water", "wind", "wheel", "wish", "walk",
+    # X
+    "xray", "xenon", "xylem", "xerox", "xylophone",
+    # Y
+    "yarn", "yellow", "young", "year", "yawn",
+    # Z
+    "zebra", "zero", "zoo", "zip", "zone"
+]
+scrambled=[]
+
+for i in words:
+    jumbled="".join(random.sample(i,len(i)))
+    scrambled.append(jumbled)
+print(scrambled)
+
+num=random.randint(0,len(scrambled))
+
+def choice():
+    global num,anagram,guess
+    num=random.randint(0,len(scrambled))
+    anagram.config(text=scrambled[num])
+    guess.delete(0,END)
+def correction():
+    global words,num,score,questions
+    answer=guess.get()
+    questions+=1
+    if answer==words[num]:
+        score+=1
+    else:
+        messagebox.showerror(title="Wrong answer",message=f"The correct answer is {words[num]}")
+    score_.config(text=f"Score: {score}/{questions}")
+    choice()
+def default():
+    global anagram,scrambled,num
+    anagram.config(text=scrambled[num])
+
+title=Label(win,text="Anagram:")
+title.pack(pady=2)
+anagram=Label(win,text="N/C")
+anagram.pack(pady=2)
+guess=Entry(win)
+guess.pack(pady=2)
+check=Button(win,text="Check",command=correction)
+check.pack(pady=2)
+reset=Button(win,text="Reset",command=choice)
+reset.pack(pady=2)
+score_=Label(win,text="Score: N/A")
+score_.pack(pady=2)
+default()
+mainloop()
